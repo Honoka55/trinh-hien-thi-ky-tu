@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呈顯示記字</title>
+    <style>
+        :root {
+            --font-primary: 'PlangothicP1', 'PlangothicP2', 'Source Han Sans', 'Noto Sans SC', 'Jigmo2', sans-serif;
+        }
+
+        @font-face {
+            font-family: 'PlangothicP1';
+            src: url('https://cdn.jsdelivr.net/gh/Fitzgerald-Porthmouth-Koenigsegg/Plangothic-Project@main/PlangothicP1-Regular%20(fallback).ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'PlangothicP2';
+            src: url('https://cdn.jsdelivr.net/gh/Fitzgerald-Porthmouth-Koenigsegg/Plangothic-Project@main/PlangothicP2-Regular.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'Jigmo2';
+            src: url('Jigmo2.woff2') format('woff2');
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: var(--font-primary);
+        }
+        body.dark-mode {
+            background-color: #262626;
+            color: #fff;
+        }
+
+        h1 {
+            font-weight: normal;
+        }
+
+        textarea {
+            width: 80%;
+            max-width: 600px;
+            padding: 10px;
+            font-size: 16px;
+            font-family: var(--font-primary);
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 5px 8px;
+            border-radius: 0;
+            cursor: pointer;
+            border: 1px solid #d19ffe;
+            font-family: var(--font-primary);
+            font-size: 16px;
+            background-color: #363169;
+            color: #d19ffe;
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+            -webkit-transition: all 0.25s ease;
+            transition: all 0.25s ease;
+            line-height: 1.1;
+        }
+        button:hover {
+            background-color: #ddc2f5;
+            color: #363169;
+        }
+
+        #error-message {
+            color: #f00;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 70px;
+            visibility: hidden;
+        }
+
+        a {
+            box-shadow: 0 -2px rgba(189, 195, 199, 0.5) inset;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #34495e;
+        }
+        .dark-mode > * > a {
+            color: #ecf0f1;
+        }
+        a:hover {
+            cursor: pointer;
+            box-shadow: 0px -1.85rem 0px rgba(189, 195, 199, 0.7) inset;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <h1>呈顯示記字</h1>
+    <textarea placeholder="入文本於低…" rows="12"></textarea>
+    <div>
+        <button onclick="pasteText()">𬖭</button>
+        <button onclick="clearText()">𫨮</button>
+    </div>
+    <div id="error-message">空體讀文本自榜記暫！</div>
+    <div>Copyright © 2024 <a href="https://honoka55.github.io">Honoka55</a> | <a href="https://github.com/Honoka55/trinh-hien-thi-ky-tu">Repo</a></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleDarkMode = () => {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            }
+            toggleDarkMode();
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(toggleDarkMode);
+        });
+
+        function pasteText() {
+            navigator.clipboard.readText()
+                .then(text => {
+                    document.getElementsByTagName('textarea')[0].value = text;
+                    document.getElementById('error-message').style.visibility = 'hidden';
+                })
+                .catch(err => {
+                    document.getElementById('error-message').style.visibility = 'visible';
+                });
+        }
+
+        function clearText() {
+            document.getElementsByTagName('textarea')[0].value = '';
+            hideErrorMessage();
+        }
+    </script>
+
+</body>
+
+</html>
